@@ -40,13 +40,13 @@ public class WithParamJobConfig {
     @StepScope
     public Tasklet withParamStep1Tasklet(
             @Value("#{jobParameters['name']}") String name,
-            @Value("#{jobParameters['age']}") String age
+            @Value("#{jobParameters['age']}") Long age
     ) {
 
         return (stepContribution, chunkContext) -> {
 //            log.debug("name : {}, age : {}", name, age);
 
-            System.out.printf("%s, %s\n", name, age);
+            System.out.printf("%s, %d\n", name, age);
             System.out.println("withParam 테스클릿 1!!!");
             return RepeatStatus.FINISHED;
         };
