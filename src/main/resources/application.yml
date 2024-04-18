@@ -1,7 +1,7 @@
 spring:
   batch:
     job:
-      names: ${job.name:none}
+      names: ${job.name:NONE}
     jdbc:
       initialize-schema: ALWAYS
   datasource:
@@ -11,3 +11,6 @@ spring:
     password:
   jpa:
     show-sql: true
+logging:
+  level:
+    com.ll.exam.batch_ex_24_04: debug
