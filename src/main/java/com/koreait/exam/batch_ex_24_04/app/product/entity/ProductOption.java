@@ -24,6 +24,7 @@ public class ProductOption extends BaseEntity {
     private String displayColor;
     private String displaySize;
     private int price;
+    private int salePrice;
     private int wholesalePrice;
 
     @ManyToOne(fetch = LAZY)
@@ -41,7 +42,7 @@ public class ProductOption extends BaseEntity {
     }
 
     public boolean isOrderable(int quantity) {
-        if (isSoldOut() == false) return true;
+        if(isSoldOut() == false) return true;
 
         return getStockQuantity() >= quantity;
     }
