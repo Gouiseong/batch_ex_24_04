@@ -16,13 +16,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public void create(String name, int price, String makerShopName, List<ProductOption> options) {
+    public Product create(String name, int price, String makerShopName, List<ProductOption> options) {
         Product product = Product.builder()
                 .name(name)
                 .price(price)
                 .makerShopName(makerShopName).build();
-
-        productRepository.save(product);
 
         for(ProductOption option : options) {
             product.addOption(option);
@@ -30,5 +28,6 @@ public class ProductService {
 
         productRepository.save(product);
 
+        return product;
     }
 }
