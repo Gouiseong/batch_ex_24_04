@@ -1,7 +1,5 @@
 package com.koreait.exam.batch_ex_24_04.app.product.service;
 
-import com.koreait.exam.batch_ex_24_04.app.member.entity.Member;
-import com.koreait.exam.batch_ex_24_04.app.member.repository.MemberRepository;
 import com.koreait.exam.batch_ex_24_04.app.product.entity.Product;
 import com.koreait.exam.batch_ex_24_04.app.product.entity.ProductOption;
 import com.koreait.exam.batch_ex_24_04.app.product.repository.ProductRepository;

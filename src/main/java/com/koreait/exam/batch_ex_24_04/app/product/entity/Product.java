@@ -1,7 +1,10 @@
 package com.koreait.exam.batch_ex_24_04.app.product.entity;
 
 import com.koreait.exam.batch_ex_24_04.app.base.entity.BaseEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;

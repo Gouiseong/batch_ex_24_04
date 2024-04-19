@@ -22,17 +22,17 @@ public class HelloWorldJobConfig {
     public Job helloWorldJob() {
         return jobBuilderFactory.get("helloWorldJob")
 //                .incrementer(new RunIdIncrementer()) // 강제로 매번 다른 ID 를 실행할 때 파라미터로 부여
-            .start(helloWorldStep1())
-            .next(helloWorldStep2())
-            .build();
+                .start(helloWorldStep1())
+                .next(helloWorldStep2())
+                .build();
     }
 
     @Bean
     @JobScope
     public Step helloWorldStep1() {
         return stepBuilderFactory.get("helloWorldStep1")
-            .tasklet(helloWorldStep1Tasklet())
-            .build();
+                .tasklet(helloWorldStep1Tasklet())
+                .build();
     }
 
     @Bean
@@ -48,8 +48,8 @@ public class HelloWorldJobConfig {
     @JobScope
     public Step helloWorldStep2() {
         return stepBuilderFactory.get("helloWorldStep2")
-            .tasklet(helloWorldStep2Tasklet())
-            .build();
+                .tasklet(helloWorldStep2Tasklet())
+                .build();
     }
 
     @Bean

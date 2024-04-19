@@ -24,6 +24,7 @@ public class ProductOption extends BaseEntity {
     private int price;
 
     @ManyToOne(fetch = LAZY)
+    @ToString.Exclude
     private Product product;
 
     private boolean isSoldOut; // 사입처에서의 품절여부
@@ -32,5 +33,11 @@ public class ProductOption extends BaseEntity {
     public ProductOption(String color, String size) {
         this.color = color;
         this.size = size;
+    }
+
+    public boolean isOrderable(int quantity) {
+        if (isSoldOut() == false) return true;
+
+        return getStockQuantity() >= quantity;
     }
 }
