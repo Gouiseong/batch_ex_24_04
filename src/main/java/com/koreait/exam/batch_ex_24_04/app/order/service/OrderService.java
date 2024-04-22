@@ -3,6 +3,7 @@ package com.koreait.exam.batch_ex_24_04.app.order.service;
 import com.koreait.exam.batch_ex_24_04.app.cart.entity.CartItem;
 import com.koreait.exam.batch_ex_24_04.app.cart.service.CartService;
 import com.koreait.exam.batch_ex_24_04.app.member.entity.Member;
+import com.koreait.exam.batch_ex_24_04.app.member.service.MemberService;
 import com.koreait.exam.batch_ex_24_04.app.order.entity.Order;
 import com.koreait.exam.batch_ex_24_04.app.order.entity.OrderItem;
 import com.koreait.exam.batch_ex_24_04.app.order.repository.OrderRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class OrderService {
+    private final MemberService memberService;
     private final CartService cartService;
     private final OrderRepository orderRepository;
 
@@ -31,17 +33,17 @@ public class OrderService {
 
         List<OrderItem> orderItems = new ArrayList<>();
 
-        for(CartItem cartItem : cartItems) {
+        for (CartItem cartItem : cartItems) {
             ProductOption productOption = cartItem.getProductOption();
 
-            if(productOption.isOrderable(cartItem.getQuantity())){
-                orderItems.add(new OrderItem(productOption,cartItem.getQuantity()));
+            if (productOption.isOrderable(cartItem.getQuantity())) {
+                orderItems.add(new OrderItem(productOption, cartItem.getQuantity()));
             }
 
             cartService.deleteItem(cartItem);
         }
 
-        return create(member,orderItems);
+        return create(member, orderItems);
 
     }
 
@@ -52,7 +54,7 @@ public class OrderService {
                 .member(member)
                 .build();
 
-        for(OrderItem orderItem : orderItems) {
+        for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
 
@@ -61,5 +63,22 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
+    public void payByRestCashOnly(Order order) {
+        Member orderer = order.getMember();
+
+        long restCash = orderer.getRestCash();
+
+        int payPrice = order.calculatePayPrice();
+
+        if (payPrice > restCash) {
+            throw new RuntimeException("예치금이 부족해");
+        }
+
+        memberService.addCash(orderer, payPrice * -1, "주문결제__예치금결제");
+
+        order.setPaymentDone();
+        orderRepository.save(order);
+    }
 
 }
