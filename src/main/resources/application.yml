@@ -17,4 +17,4 @@ spring:
       ddl-auto: create
 logging:
   level:
-    com.ll.exam.batch_ex_24_04: debug
+    com.koreait.exam.batch_ex_24_04: debug
