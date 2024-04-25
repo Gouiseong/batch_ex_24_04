@@ -66,16 +66,13 @@ public class makeRebateOrderItemJobConfig {
 
     @StepScope
     @Bean
-    public RepositoryItemReader<OrderItem> orderItemReader(
-            @Value("#{jobParameters['fromId']}") long fromId,
-            @Value("#{jobParameters['toId']}") long toId
-    ) {
+    public RepositoryItemReader<OrderItem> orderItemReader() {
         return new RepositoryItemReaderBuilder<OrderItem>()
                 .name("orderItemReader")
                 .repository(orderItemRepository)
-                .methodName("findAllByIdBetween")
+                .methodName("findAllByIsPaid")
                 .pageSize(100)
-                .arguments(Arrays.asList(fromId, toId))
+                .arguments(Arrays.asList(true))
                 .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
                 .build();
     }
@@ -95,6 +92,7 @@ public class makeRebateOrderItemJobConfig {
             if (oldRebateOrderItem != null) {
                 rebateOrderItemRepository.delete(oldRebateOrderItem);
             }
+
 
             rebateOrderItemRepository.save(item);
         });
