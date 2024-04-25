@@ -35,6 +35,7 @@ public class ProductBackupJobConfig {
     private final ProductRepository productRepository;
     private final ProductBackupRepository productBackupRepository;
 
+
     @Bean
     public Job productBackupJob(Step productBackupStep1, CommandLineRunner initData) throws Exception {
         initData.run();
@@ -80,7 +81,7 @@ public class ProductBackupJobConfig {
 
     @StepScope
     @Bean
-    public ItemWriter<ProductBackup> ProductBackupWriter() {
+    public ItemWriter<ProductBackup> productBackupWriter() {
         return items -> items.forEach(item -> {
             ProductBackup oldProductBackup = productBackupRepository.findByProductId(item.getProduct().getId()).orElse(null);
 
@@ -90,7 +91,5 @@ public class ProductBackupJobConfig {
 
             productBackupRepository.save(item);
         });
-
-
     }
 }
